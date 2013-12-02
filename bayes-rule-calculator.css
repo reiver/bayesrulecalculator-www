@@ -1,0 +1,25 @@
+html,body {
+	margin:0;
+	padding:0;
+	background-color:white;
+	color:#303030;
+}
+
+html,body,td {
+	font-family:arial,sans-serif;
+}
+
+h1 {
+	text-align:center;
+	color:#606060;
+}
+
+textarea#bayes_data {
+	width:500px;
+	height:270px;
+}
+
+var {
+	font-style: normal;
+	white-space: pre;
+}
