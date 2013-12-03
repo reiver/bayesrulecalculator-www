@@ -27,6 +27,8 @@
 			<meta name="abstract" content="Bayes Rule Calculator" />
 
 			<link rel="stylesheet" type="text/css" href="bayes-rule-calculator.css" />
+			<script src="jquery-1.10.2.min.js"></script>
+			<script src="big.min.js"></script>
 	</head>
 
 	<body>
@@ -34,8 +36,7 @@
 			<h1>Bayes Rule Calculator</h1>
 		<div>
 
-		<center><div style="text-align:left;width:510px;" class="form">
-			<form method="POST" action="bayes-rule-calculate.html">
+		<center><div style="text-align:left;width:610px;" class="form">
 				<p>
 					A simple <em>Bayes rule calculator</em>.
 				</p>
@@ -49,40 +50,393 @@
 								<var>P(H) =</var>
 							</th>
 							<td>
-								<input name="" type="text" />
+								<input name="prior" id="prior" type="text" />
+							</td>
+							<td>
+								(prior)
 							</td>
 						</tr>
 						<tr>
 							<th scope="row" style="text-align:right;">
-								<var>P(D |   H) =</var>
+								<var>P(D | H) =</var>
 							</th>
 							<td>
-								<input name="" type="text" />
+								<input name="sensitivity" id="sensitivity" type="text" />
+							</td>
+							<td>
+								(sensitivity)
 							</td>
 						</tr>
 						<tr>
 							<th scope="row" style="text-align:right;">
-								<var>P(D | ¬ H) =</var>
+								<var>P(¬D | ¬H) =</var>
 							</th>
 							<td>
-								<input name="" type="text" />
+								<input name="specificity" id="specificity" type="text" />
+							</td>
+							<td>
+								(specificity)
 							</td>
 						</tr>
-					</tbody>
-					<tfoot>
+						<tr>
+							<td>
+								&#160;
+							</td>
+						</tr>
 						<tr>
 							<th scope="row"></th>
 							<td>
-								<input type="submit" value="Calculate Bayes Rule" />
+								<button id="calculate" disabled="true">Calculate Bayes Rule</button>
 							</td>
 						</tr>
-					</tfoot>
+						<tr>
+							<td>
+								&#160;
+							</td>
+						</tr>
+						<tr>
+							<td style="text-align:right;">
+								(1 - prior)
+							</td>
+							<td>
+								<input name="not_prior" id="not_prior" type="text" readonly="true" />
+							</td>
+							<th scope="row" style="text-align:left;">
+								<var>= P(¬H)</var>
+							</th>
+						</tr>
+						<tr>
+							<td style="text-align:right;">
+								(1 - sensitivity)
+							</td>
+							<td>
+								<input name="one_minus_sensitivity" id="one_minus_sensitivity" type="text" readonly="true" />
+							</td>
+							<th scope="row" style="text-align:left;">
+								<var>= P(¬D | H)</var>
+							</th>
+						</tr>
+						<tr>
+							<td style="text-align:right;">
+								(1 - specificity)
+							</td>
+							<td>
+								<input name="one_minus_specificity" id="one_minus_specificity" type="text" readonly="true" />
+							</td>
+							<th scope="row" style="text-align:left;">
+								<var>= P(D | ¬H)</var>
+							</th>
+						</tr>
+						<tr>
+							<td>
+								&#160;
+							</td>
+						</tr>
+						<tr>
+							<td style="text-align:right;">
+								(prior × sensitivity)
+							</td>
+							<td>
+								<input name="prior_x_sensitivity" id="prior_x_sensitivity" type="text" readonly="true" />
+							</td>
+							<th scope="row" style="text-align:left;">
+								<var>= P(H, D) = P(H) × P(D | H)</var>
+							</th>
+						</tr>
+						<tr>
+							<td style="text-align:right;">
+								((1-prior) × (1 - specificity))
+							</td>
+							<td>
+								<input name="one_minus_prior_x_one_minus_specificity" id="one_minus_prior_x_one_minus_specificity" type="text" readonly="true" />
+							</td>
+							<th scope="row" style="text-align:left;">
+								<var>= P(¬H, D) = P(¬H) × P(D | ¬H)</var>
+							</th>
+						</tr>
+						<tr>
+							<td>
+								&#160;
+							</td>
+						</tr>
+						<tr>
+							<td style="text-align:right;">
+								(prior × (1-sensitivity))
+							</td>
+							<td>
+								<input name="prior_x_one_minus_sensitivity" id="prior_x_one_minus_sensitivity" type="text" readonly="true" />
+							</td>
+							<th scope="row" style="text-align:left;">
+								<var>= P(H, ¬D) = P(H) × P(¬D | H)</var>
+							</th>
+						</tr>
+						<tr>
+							<td style="text-align:right;">
+								((1-prior) × specificity)
+							</td>
+							<td>
+								<input name="one_minus_prior_x_specificity" id="one_minus_prior_x_specificity" type="text" readonly="true" />
+							</td>
+							<th scope="row" style="text-align:left;">
+								<var>= P(¬H, ¬D) = P(¬H) × P(¬D | ¬H)</var>
+							</th>
+						</tr>
+						<tr>
+							<td>
+								&#160;
+							</td>
+						</tr>
+						<tr>
+							<td style="text-align:right;">
+								(normalizer for D)
+							</td>
+							<td>
+								<input name="normalizer1" id="normalizer1" type="text" readonly="true" />
+							</td>
+							<th scope="row" style="text-align:left;">
+								<var>= P(D)</var>
+							</th>
+						</tr>
+						<tr>
+							<td>
+								&#160;
+							</td>
+						</tr>
+						<tr>
+							<td style="text-align:right;">
+								(normalizer for ¬D)
+							</td>
+							<td>
+								<input name="normalizer2" id="normalizer2" type="text" readonly="true" />
+							</td>
+							<th scope="row" style="text-align:left;">
+								<var>= P(¬D)</var>
+							</th>
+						</tr>
+						<tr>
+							<td colspan="3">
+								&#160;
+								<hr />
+								&#160;
+							</td>
+						</tr>
+						<tr>
+							<td style="text-align:right;">
+
+							</td>
+							<td>
+								<input name="answer1-1" id="answer1-1" type="text" readonly="true" />
+							</td>
+							<th scope="row" style="text-align:left;">
+								<var>= P(H | D)</var>
+							</th>
+						</tr>
+						<tr>
+							<td style="text-align:right;">
+
+							</td>
+							<td>
+								<input name="answer1-2" id="answer1-2" type="text" readonly="true" />
+							</td>
+							<th scope="row" style="text-align:left;">
+								<var>= P(¬H | D)</var>
+							</th>
+						</tr>
+						<tr>
+							<td colspan="3">
+								&#160;
+							</td>
+						</tr>
+						<tr>
+							<td style="text-align:right;">
+
+							</td>
+							<td>
+								<input name="answer2-1" id="answer2-1" type="text" readonly="true" />
+							</td>
+							<th scope="row" style="text-align:left;">
+								<var>= P(H | ¬D)</var>
+							</th>
+						</tr>
+						<tr>
+							<td style="text-align:right;">
+
+							</td>
+							<td>
+								<input name="answer2-2" id="answer2-2" type="text" readonly="true" />
+							</td>
+							<th scope="row" style="text-align:left;">
+								<var>= P(¬H | ¬D)</var>
+							</th>
+						</tr>
+					</tbody>
 				</table>
 
-			</form>
+
+				
+
 		</div></center>
 
 
+
+		<script type="text/javascript">
+		<!--
+
+			$( document ).ready(function() {
+
+				var calculateButton = $("#calculate");
+
+				if ( ! calculateButton ) {
+					return;
+				}
+
+
+				var priorInput       = $("#prior");
+				var sensitivityInput = $("#sensitivity");
+				var specificityInput = $("#specificity");
+
+				if ( ! priorInput ) {
+					return;
+				}
+				if ( ! sensitivityInput ) {
+					return;
+				}
+				if ( ! specificityInput ) {
+					return;
+				}
+
+
+				var notPriorInput            = $("#not_prior");
+				var oneMinusSensitivityInput = $("#one_minus_sensitivity");
+				var oneMinusSpecificityInput = $("#one_minus_specificity");
+
+				if ( ! notPriorInput ) {
+					return;
+				}
+				if ( !oneMinusSensitivityInput ) {
+					return;
+				}
+				if ( ! oneMinusSpecificityInput ) {
+					return;
+				}
+
+
+				var priorXSensitivityInput                 = $("#prior_x_sensitivity");
+				var oneMinusPriorXOneMinusSpecificityInput = $("#one_minus_prior_x_one_minus_specificity");
+
+				if ( ! priorXSensitivityInput ) {
+					return;
+				}
+				if ( ! oneMinusPriorXOneMinusSpecificityInput ) {
+					return;
+				}
+
+
+				var priorXOneMinusSensitivityInput = $("#prior_x_one_minus_sensitivity");
+				var oneMinusPriorXSpecificityInput = $("#one_minus_prior_x_specificity");
+
+				if ( ! priorXOneMinusSensitivityInput ) {
+					return;
+				}
+				if ( ! oneMinusPriorXSpecificityInput ) {
+					return;
+				}
+
+
+				var normalizer1Input = $("#normalizer1");
+				var normalizer2Input = $("#normalizer2");
+
+				if ( ! normalizer1Input ) {
+					return;
+				}
+				if ( ! normalizer2Input ) {
+					return;
+				}
+
+
+
+				var answer11Input = $("#answer1-1");
+				var answer12Input = $("#answer1-2");
+				var answer21Input = $("#answer2-1");
+				var answer22Input = $("#answer2-2");
+
+				if ( ! answer11Input ) {
+					return;
+				}
+				if ( ! answer12Input ) {
+					return;
+				}
+				if ( ! answer21Input ) {
+					return;
+				}
+				if ( ! answer22Input ) {
+					return;
+				}
+
+
+				calculateButton.click(function() {
+
+					var prior       = priorInput.val();
+					var sensitivity = sensitivityInput.val();
+					var specificity = specificityInput.val();
+
+					var prior       = Big(prior);
+					var sensitivity = Big(sensitivity);
+					var specificity = Big(specificity);
+
+
+					var One = Big(1);
+
+
+					var notPrior            = One.minus(prior);
+					var oneMinusSensitivity = One.minus(sensitivity);
+					var oneMinusSpecificity = One.minus(specificity);
+
+					notPriorInput.val(notPrior);
+					oneMinusSensitivityInput.val(oneMinusSensitivity);
+					oneMinusSpecificityInput.val(oneMinusSpecificity);
+
+
+					var priorXSensitivity                 =     prior.times(sensitivity);
+					var oneMinusPriorXOneMinusSpecificity =  notPrior.times(oneMinusSpecificity);
+
+					priorXSensitivityInput.val(priorXSensitivity);
+					oneMinusPriorXOneMinusSpecificityInput.val(oneMinusPriorXOneMinusSpecificity);
+
+
+					var priorXOneMinusSensitivity = prior.times(oneMinusSensitivity);
+					var oneMinusPriorXSpecificity = notPrior.times(specificity)
+
+					priorXOneMinusSensitivityInput.val(priorXOneMinusSensitivity);
+					oneMinusPriorXSpecificityInput.val(oneMinusPriorXSpecificity);
+
+
+					var normalizer1 = priorXSensitivity.plus(oneMinusPriorXOneMinusSpecificity)
+					var normalizer2 = priorXOneMinusSensitivity.plus(oneMinusPriorXSpecificity);
+
+					normalizer1Input.val(normalizer1);
+					normalizer2Input.val(normalizer2);
+
+
+
+					var answer11 = priorXSensitivity.div(normalizer1);
+					var answer12 = oneMinusPriorXOneMinusSpecificity.div(normalizer1);
+					var answer21 = priorXOneMinusSensitivity.div(normalizer2);
+					var answer22 = oneMinusPriorXSpecificity.div(normalizer2);
+
+					answer11Input.val(answer11);
+					answer12Input.val(answer12);
+					answer21Input.val(answer21);
+					answer22Input.val(answer22);
+
+				});
+
+				calculateButton.attr("disabled", false);
+
+
+			});
+		// -->
+		</script>
 	</body>
 </html>
 
