@@ -29,3 +29,13 @@ input.result {
 	border: 0;
 	outline: 3px solid #50d050;
 }
+
+.work {
+/*	display:none; */
+
+}
+
+.work input {
+	border: 0;
+	outline: 1px dotted #505050;
+}
