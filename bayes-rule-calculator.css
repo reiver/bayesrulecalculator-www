@@ -9,6 +9,10 @@ html,body,td {
 	font-family:arial,sans-serif;
 }
 
+body {
+	padding-bottom:5em;
+}
+
 h1 {
 	text-align:center;
 	color:#606060;
