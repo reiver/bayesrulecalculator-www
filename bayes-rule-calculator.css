@@ -18,11 +18,6 @@ h1 {
 	color:#606060;
 }
 
-textarea#bayes_data {
-	width:500px;
-	height:270px;
-}
-
 var {
 	font-style: normal;
 	white-space: pre;
