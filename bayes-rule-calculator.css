@@ -23,3 +23,9 @@ var {
 	font-style: normal;
 	white-space: pre;
 }
+
+
+input.result {
+	border: 0;
+	outline: 3px solid #50d050;
+}
