@@ -84,17 +84,20 @@
 							</td>
 						</tr>
 						<tr>
-							<th scope="row"></th>
+							<td></td>
 							<td>
 								<button id="calculate" disabled="true">Calculate Bayes Rule</button>
 							</td>
+							<td>
+								<label><input name="show_work" id="show_work" type="checkbox" />show work</label>
+							</td>
 						</tr>
-						<tr>
+						<tr class="work _work">
 							<td>
 								&#160;
 							</td>
 						</tr>
-						<tr>
+						<tr class="work _work">
 							<td style="text-align:right;">
 								(1 - prior)
 							</td>
@@ -105,7 +108,7 @@
 								<var>= P(¬H)</var>
 							</th>
 						</tr>
-						<tr>
+						<tr class="work _work">
 							<td style="text-align:right;">
 								(1 - sensitivity)
 							</td>
@@ -116,7 +119,7 @@
 								<var>= P(¬D | H)</var>
 							</th>
 						</tr>
-						<tr>
+						<tr class="work _work">
 							<td style="text-align:right;">
 								(1 - specificity)
 							</td>
@@ -127,12 +130,14 @@
 								<var>= P(D | ¬H)</var>
 							</th>
 						</tr>
-						<tr>
-							<td>
+						<tr class="work _work">
+							<td colspan="3">
+								&#160;
+								<hr />
 								&#160;
 							</td>
 						</tr>
-						<tr>
+						<tr class="work _work">
 							<td style="text-align:right;">
 								(prior × sensitivity)
 							</td>
@@ -143,7 +148,7 @@
 								<var>= P(H, D) = P(H) × P(D | H)</var>
 							</th>
 						</tr>
-						<tr>
+						<tr class="work _work">
 							<td style="text-align:right;">
 								((1-prior) × (1 - specificity))
 							</td>
@@ -155,38 +160,11 @@
 							</th>
 						</tr>
 						<tr>
-							<td>
+							<td colspan="3">
 								&#160;
 							</td>
 						</tr>
-						<tr>
-							<td style="text-align:right;">
-								(prior × (1-sensitivity))
-							</td>
-							<td>
-								<input name="prior_x_one_minus_sensitivity" id="prior_x_one_minus_sensitivity" type="text" readonly="true" />
-							</td>
-							<th scope="row" style="text-align:left;">
-								<var>= P(H, ¬D) = P(H) × P(¬D | H)</var>
-							</th>
-						</tr>
-						<tr>
-							<td style="text-align:right;">
-								((1-prior) × specificity)
-							</td>
-							<td>
-								<input name="one_minus_prior_x_specificity" id="one_minus_prior_x_specificity" type="text" readonly="true" />
-							</td>
-							<th scope="row" style="text-align:left;">
-								<var>= P(¬H, ¬D) = P(¬H) × P(¬D | ¬H)</var>
-							</th>
-						</tr>
-						<tr>
-							<td>
-								&#160;
-							</td>
-						</tr>
-						<tr>
+						<tr class="work _work">
 							<td style="text-align:right;">
 								(normalizer for D)
 							</td>
@@ -197,12 +175,41 @@
 								<var>= P(D)</var>
 							</th>
 						</tr>
-						<tr>
+						<tr class="work _work">
+							<td colspan="3">
+								&#160;
+								<hr />
+								&#160;
+							</td>
+						</tr>
+						<tr class="work _work">
+							<td style="text-align:right;">
+								(prior × (1-sensitivity))
+							</td>
+							<td>
+								<input name="prior_x_one_minus_sensitivity" id="prior_x_one_minus_sensitivity" type="text" readonly="true" />
+							</td>
+							<th scope="row" style="text-align:left;">
+								<var>= P(H, ¬D) = P(H) × P(¬D | H)</var>
+							</th>
+						</tr>
+						<tr class="work _work">
+							<td style="text-align:right;">
+								((1-prior) × specificity)
+							</td>
+							<td>
+								<input name="one_minus_prior_x_specificity" id="one_minus_prior_x_specificity" type="text" readonly="true" />
+							</td>
+							<th scope="row" style="text-align:left;">
+								<var>= P(¬H, ¬D) = P(¬H) × P(¬D | ¬H)</var>
+							</th>
+						</tr>
+						<tr class="work _work">
 							<td>
 								&#160;
 							</td>
 						</tr>
-						<tr>
+						<tr class="work _work">
 							<td style="text-align:right;">
 								(normalizer for ¬D)
 							</td>
@@ -283,6 +290,34 @@
 		<!--
 
 			$( document ).ready(function() {
+
+				var showWorkCheckbox = $("#show_work");
+				if (  showWorkCheckbox  ) {
+
+					showWorkCheckbox.change(function (){
+
+						if($(this).is(":checked")) {
+
+							$("._work").each(function () {
+
+								$(this).show();
+
+							});
+
+						} else {
+
+							$("._work").each(function () {
+
+								$(this).hide();
+
+							});
+						}
+
+					});
+				}
+
+
+
 
 				var calculateButton = $("#calculate");
 
