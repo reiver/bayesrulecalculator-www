@@ -24,10 +24,12 @@ var {
 }
 
 
+
 input.result {
 	border: 0;
 	outline: 3px solid #50d050;
 }
+
 
 .work {
 	display:none;
